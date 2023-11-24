@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-
-
 # Gives information about the school file
 # You must use if and, else (case is forbidden)
 # Your Bash script should check if the file exists and print:
