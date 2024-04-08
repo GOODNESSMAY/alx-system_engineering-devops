@@ -1,26 +1,11 @@
 #!/usr/bin/env bash
 # Configure an Nginx server to listen on port 80
 
-# Install missing tools
-sudo apt-get install net-tools ufw -y
+# Remove any existing the default configuration file
+rm /etc/nginx/sites-enabled/default
 
-# Check Nginx configuration
-sudo nginx -t
+# Configure nginx to listen to port 80 for all active IPv4 IPs
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-# Reload Nginx service
-sudo systemctl reload nginx
-
-# Check UFW status
-if sudo ufw status | grep -q "80/tcp"; then
-    echo "Error: UFW firewall configuration is restricting Nginx from binding to port 80"
-    echo "Allowing incoming traffic on port 80..."
-    sudo ufw allow 80/tcp
-fi
-
-# Restart Nginx with sudo privileges
-if ! sudo nginx -t -c /etc/nginx/nginx.conf &> /dev/null; then
-    echo "Error: Nginx is not run with sudo privileges"
-    echo "Restarting Nginx with sudo privileges..."
-    sudo systemctl restart nginx
-fi
-
+# restart nginx
+service nginx restart
